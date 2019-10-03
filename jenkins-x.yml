@@ -4,4 +4,4 @@ pipelineConfig:
     release:
       build:
         preSteps:
-        - command: docker build
+        - command: echo "hello"
