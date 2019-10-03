@@ -17,4 +17,6 @@ pipelines:
   release:
     build:
       steps:
-      - sh: jx step post build --image $DOCKER_REGISTRY/northamlin-com/$APP_NAME:\$(cat VERSION)
+      - sh: export VERSION=`cat VERSION`
+        name: container-build
+      - sh: echo "jek"
