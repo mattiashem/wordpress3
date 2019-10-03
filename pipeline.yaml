@@ -10,6 +10,9 @@ env:
     value: jenkins-x@googlegroups.com
   - name: GIT_AUTHOR_NAME
     value: jenkins-x-bot
+  - name: ORG
+    value: northamlin-com
+
 pipelines:
   pullRequest:
     build:
