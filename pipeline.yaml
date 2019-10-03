@@ -38,7 +38,7 @@ pipelines:
         name: post-build
     promote:
       steps:
-      - dir: ./charts/REPLACE_ME_APP_NAME
+      - dir: ./charts/wordpress3
         steps:
         - sh: jx step changelog --version v\$(cat ../../VERSION)
           name: changelog
