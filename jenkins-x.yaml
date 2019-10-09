@@ -1,7 +1,0 @@
-buildPack: wordpress	
-pipelineConfig:	
-  pipelines:	
-    release:	
-      build:	
-        preSteps:	
-        - command: echo "hello"
