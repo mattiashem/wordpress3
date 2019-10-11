@@ -1,4 +1,4 @@
-apiVersion: v1
+name: python
 description: A Helm chart for Kubernetes
-name: wordpress3
+apiVersion: v1
 version: v0.1.0

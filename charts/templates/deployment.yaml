@@ -1,0 +1,70 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}-pod 
+    spec:
+      containers:
+        - image: {{ .Values.image_base }}/{{.Values.image}}:{{.Values.tag}}
+          imagePullPolicy: Always
+          name: {{ .Values.name }}-pod
+          env:
+            - name: DBHOST
+              # Connect to the SQL proxy over the local network on a fixed port.
+              # Change the [PORT] to the port number used by your database
+              # (e.g. 3306).
+              value: 127.0.0.1:3306
+            # These secrets are required to start the pod.
+            # [START cloudsql_secrets]
+            - name: DBPASS
+              value: '{{ .Values.dbpass }}'
+            - name: SITENAME
+              value: {{ .Values.name }}
+            # [END cloudsql_secrets]
+            - name: SMTPHOST
+              value: {{ .Values.SMTPHOST }}
+            - name: SMTPUSER
+              value: {{ .Values.SMTPUSER }}
+            - name: SMTPPASS
+              value: {{ .Values.SMTPPASS }}
+            - name: SMTP_FROM
+              value: {{ .Values.SMTP_FROM }}
+          ports:
+            - containerPort: 8000
+              name: wordpress
+          resources:
+            requests:
+              cpu: 50m
+          volumeMounts:
+            - name: wordpress-persistent-storage
+              mountPath: /repo
+          livenessProbe:
+           httpGet:
+             path: /healthz/index.html
+             port: 8000
+             httpHeaders:
+             - name: X-Custom-Header
+               value: Awesome
+           initialDelaySeconds: 3
+           periodSeconds: 3
+          readinessProbe:
+           httpGet:
+             path: /healthz/index.html
+             port: 8000
+             httpHeaders:
+             - name: X-Custom-Header
+               value: Awesome
+           initialDelaySeconds: 3
+           periodSeconds: 3
+      volumes:
+        - name: wordpress-persistent-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.name }}-disk
+
+
+

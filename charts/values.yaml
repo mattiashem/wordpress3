@@ -1,0 +1,18 @@
+# Default values for wordpress.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+name: wordpress
+repo: gcp.io
+image: wordpress
+tag: latest
+dbpass: password
+SMTPHOST: 127.0.0.1
+SMTPUSER: email
+SMTPPASS: password
+SMTP_FROM: me@email.com
+github_key: asdasdadadsdadadasdas
+image_base: mattiashem
+url: demo.example.com
+kubedomainname: appselinose
+cloudsqlhost: reference-fact-144618:europe-west2:sqlone
+port: 80
