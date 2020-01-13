@@ -1,7 +1,7 @@
 from alpine
 
 
-RUN apk update && apk add nginx php7 php7-fpm  php7-mysqli php7-xml ca-certificates wget curl
+RUN apk update && apk add nginx php7 php7-fpm php7-json php7-mysqli php7-xml ca-certificates wget curl
 RUN update-ca-certificates
 
 WORKDIR /var/www
@@ -19,10 +19,10 @@ ADD php.ini	/etc/php7/php.ini
 ADD php-fpm.conf /etc/php7/php-fpm.d/www.conf
 ADD php-fpm.conf_demon /etc/php7/php-fpm.conf
 RUN echo "top" >>/var/log/php7.0-fpm.log
+RUN cp -r /var/www/wordpress/wp-content /var/www/wordpress/wp-content_default
 RUN chown nginx:nginx /var/log/php7.0-fpm.log
 RUN chown nginx:nginx -R wordpress
 RUN chmod 755 -R wordpress
-
 
 
 #Setup Healthx
