@@ -1,5 +1,14 @@
 #!/bin/sh
 
+
+#
+#
+# If we have a gitrepo set lets download that as base
+#
+
+
+
+
 if [ -z "$SITENAME" ];then
     echo "no name"
 else
@@ -57,14 +66,14 @@ echo -e "define('ABSPATH', dirname(__FILE__) . '/'); \n" >> /var/www/wordpress/w
 echo -e "require_once(ABSPATH . 'wp-settings.php'); \n" >> /var/www/wordpress/wp-config.php
 echo -e "define('FS_METHOD','direct'); \n" >> /var/www/wordpress/wp-config.php
 
+#wp-content
+chown -R nginx:nginx /repo/wp-content
+chmod -R 755 /repo/wp-content
 
+#Wordpress 
 chmod 664 /var/www/wordpress/wp-config.php
 chmod -R 755 /var/www/wordpress
 chown nginx:nginx -R wordpress
-
-rm -rf /var/www/wordpress/wp-content
-ln -s /repo/wp-content /var/www/wordpress/wp-content
-
 
 echo "Starting webb service"
 php-fpm7
