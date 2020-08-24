@@ -2,7 +2,7 @@ version: '2'
 services:
   wp-base:  
     build: .
-    image: mattiashem/wp-base:5.2
+    image: mattiashem/wp-base:5.3
     ports:
       - 8833:8000
     environment:

@@ -67,15 +67,28 @@ echo -e "require_once(ABSPATH . 'wp-settings.php'); \n" >> /var/www/wordpress/wp
 echo -e "define('FS_METHOD','direct'); \n" >> /var/www/wordpress/wp-config.php
 
 #wp-content
-chown -R nginx:nginx /repo/wp-content
-chmod -R 755 /repo/wp-content
+if [ -d "/repo/wp-content" ] 
+then
+    echo "Directory /repo/wp-content exists." 
+else
+    echo "Error: Directory /repo/wp-content does not exists copy files."
+    cp -r /var/www/wordpress/wp-content_org /repo/wp-content
+fi
 
-#Wordpress 
-chmod 664 /var/www/wordpress/wp-config.php
-chmod -R 755 /var/www/wordpress
-chown nginx:nginx -R wordpress
+
 
 echo "Starting webb service"
 php-fpm7
-nginx & tail -f /var/log/nginx/* 
+nginx   
 
+chown -R nginx:nginx /repo/wp-content
+chmod -R 775 /repo/wp-content
+
+#Wordpress
+chmod 664 /var/www/wordpress/wp-config.php
+chmod -R 775 /var/www/wordpress
+chown nginx:nginx -R wordpress
+
+
+
+tail -f /var/log/nginx/*
