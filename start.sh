@@ -22,8 +22,8 @@ echo "Building wp config"
 #######################
 ##Building the wp-config file
 echo -e "<?php \n" > /var/www/wordpress/wp-config.php
-echo -e "define('DB_NAME', '$SITENAME'); \n" >> /var/www/wordpress/wp-config.php
-echo -e "define('DB_USER', '$SITENAME'); \n" >> /var/www/wordpress/wp-config.php
+echo -e "define('DB_NAME', '$DBNAME'); \n" >> /var/www/wordpress/wp-config.php
+echo -e "define('DB_USER', '$DBUSER'); \n" >> /var/www/wordpress/wp-config.php
 echo -e "define('DB_PASSWORD', '$DBPASS'); \n" >> /var/www/wordpress/wp-config.php
 echo -e "define('DB_HOST', '$DBHOST'); \n" >> /var/www/wordpress/wp-config.php
 echo -e "define('DB_CHARSET', 'utf8'); \n" >> /var/www/wordpress/wp-config.php
@@ -32,7 +32,7 @@ echo -e "define('DB_COLLATE', ''); \n" >> /var/www/wordpress/wp-config.php
 
 echo  "if (strpos(\$_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) ">> /var/www/wordpress/wp-config.php
 echo  "       \$_SERVER['HTTPS']='on';" >> /var/www/wordpress/wp-config.php
-echo -e "\n" >> /var/www/wordpress/wp-config.php 
+echo -e "\n" >> /var/www/wordpress/wp-config.php
 
 
 
@@ -65,11 +65,12 @@ echo -e "if ( !defined('ABSPATH') )" >> /var/www/wordpress/wp-config.php
 echo -e "define('ABSPATH', dirname(__FILE__) . '/'); \n" >> /var/www/wordpress/wp-config.php
 echo -e "require_once(ABSPATH . 'wp-settings.php'); \n" >> /var/www/wordpress/wp-config.php
 echo -e "define('FS_METHOD','direct'); \n" >> /var/www/wordpress/wp-config.php
-
+echo -e "define('WP_MEMORY_LIMIT','128M'); \n" >> /var/www/wordpress/wp-config.php
+echo -e "define('WP_MAX_MEMORY_LIMIT', '256M' ); \n" >> /var/www/wordpress/wp-config.php
 #wp-content
-if [ -d "/repo/wp-content" ] 
+if [ -d "/repo/wp-content" ]
 then
-    echo "Directory /repo/wp-content exists." 
+    echo "Directory /repo/wp-content exists."
 else
     echo "Error: Directory /repo/wp-content does not exists copy files."
     cp -r /var/www/wordpress/wp-content_org /repo/wp-content
@@ -79,7 +80,7 @@ fi
 
 echo "Starting webb service"
 php-fpm7
-nginx   
+nginx
 
 chown -R nginx:nginx /repo/wp-content
 chmod -R 775 /repo/wp-content
