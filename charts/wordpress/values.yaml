@@ -2,17 +2,20 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 name: wordpress
-repo: gcp.io
-image: wordpress
-tag: latest
-dbpass: password
+repo: docker.io
+image: wp-base
+tag: 5.3.3
+dbpass: changeme 
+dbhost: 127.0.0.1
+dbname: wordpress 
+dbuser: wordpress
 SMTPHOST: 127.0.0.1
 SMTPUSER: email
 SMTPPASS: password
 SMTP_FROM: me@email.com
 github_key: asdasdadadsdadadasdas
-image_base: mattiashem
-url: demo.example.com
+image_base: braveops
+url: wordpress.example.com 
 kubedomainname: appselinose
-cloudsqlhost: reference-fact-144618:europe-west2:sqlone
+cloudsqlhost: changeme 
 port: 80

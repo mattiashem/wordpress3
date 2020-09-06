@@ -18,11 +18,15 @@ spec:
               # Connect to the SQL proxy over the local network on a fixed port.
               # Change the [PORT] to the port number used by your database
               # (e.g. 3306).
-              value: 127.0.0.1:3306
+              value: '{{ default "127.0.0.1:3306" .Values.dbhost }}'
             # These secrets are required to start the pod.
             # [START cloudsql_secrets]
             - name: DBPASS
               value: '{{ .Values.dbpass }}'
+            - name: DBUSER
+              value: '{{ default .Values.Name .Values.dbuser }}'
+            - name: DBNAME
+              value: '{{ default .Values.Name .Values.dbname }}'
             - name: SITENAME
               value: {{ .Values.name }}
             # [END cloudsql_secrets]
@@ -39,7 +43,9 @@ spec:
               name: wordpress
           resources:
             requests:
-              cpu: 50m
+              memory: 1664Mi
+            limits: 
+              memory: 2048Mi
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /repo
