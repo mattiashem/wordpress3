@@ -43,7 +43,7 @@ spec:
               name: wordpress
           resources:
             requests:
-              memory: 768Mi
+              memory: 1664Mi
             limits: 
               memory: 2048Mi
           volumeMounts:
