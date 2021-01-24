@@ -1,4 +1,4 @@
-FROM php:7.1-fpm-alpine
+FROM php:7.4-fpm-alpine
 
 RUN apk add --no-cache libpng libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev && docker-php-ext-install gd
 RUN set -ex \
@@ -29,8 +29,8 @@ ADD php.ini	/etc/php7/php.ini
 ADD php-fpm.conf /etc/php7/php-fpm.d/www.conf
 ADD php-fpm.conf_demon /etc/php7/php-fpm.conf
 RUN echo "top" >>/var/log/php7.0-fpm.log
-RUN mkdir /repo
-RUN cp -r  /var/www/wordpress/wp-content /repo/wp-content
+RUN mkdir -p /repo
+#RUN cp -r  /var/www/wordpress/wp-content /repo/wp-content
 RUN mv /var/www/wordpress/wp-content /var/www/wordpress/wp-content_org
 RUN ln -s /repo/wp-content /var/www/wordpress/wp-content 
 RUN chown nginx:nginx /var/log/php7.0-fpm.log
@@ -76,5 +76,4 @@ RUN chmod 711 /start.sh
 
 
 CMD /start.sh
-
 

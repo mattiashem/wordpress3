@@ -58,12 +58,12 @@ echo -e "\n" >> /var/www/wordpress/wp-config.php
 ## Setting upp new salt and authkey
 curl https://api.wordpress.org/secret-key/1.1/salt/ >> /var/www/wordpress/wp-config.php
 #
-
-if [ "$DEBUG" = true ] ; then
+if [ "$DEBUG" == "true" ] ; then
   echo -e "#### DEBUG ON" >> /var/www/wordpress/wp-config.php
   echo -e "define('WP_DEBUG', true); \n" >> /var/www/wordpress/wp-config.php
   echo -e "define('WP_DEBUG_LOG', true); \n" >> /var/www/wordpress/wp-config.php
-  echo -e "define('WP_DEBUG_DISPLAY', true); \n" >> /var/www/wordpress/wp-config.php
+  echo -e "define('WP_DEBUG_DISPLAY', false); \n" >> /var/www/wordpress/wp-config.php
+  echo -e "define('WPS_DEBUG', true); \n" >> /var/www/wordpress/wp-config.php
 fi
 echo -e "####" >> /var/www/wordpress/wp-config.php
 echo -e "\$table_prefix  = 'wp_'; \n" >> /var/www/wordpress/wp-config.php
@@ -74,7 +74,6 @@ echo -e "define('WP_MEMORY_LIMIT','128M'); \n" >> /var/www/wordpress/wp-config.p
 echo -e "define('WP_MAX_MEMORY_LIMIT', '256M' ); \n" >> /var/www/wordpress/wp-config.php
 echo -e "require_once(ABSPATH . 'wp-settings.php'); \n" >> /var/www/wordpress/wp-config.php
 
-
 #wp-content
 if [ -d "/repo/wp-content" ]
 then
@@ -83,8 +82,6 @@ else
     echo "Error: Directory /repo/wp-content does not exists copy files."
     cp -r /var/www/wordpress/wp-content_org /repo/wp-content
 fi
-
-
 
 echo "Starting webb service"
 php-fpm7
