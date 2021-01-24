@@ -1,0 +1,27 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Values.name }}-disk
+spec:
+  {{- if .Values.storage_class }}
+  {{- if (eq "-" .Values.storage_class) }}
+  storageClassName: ""
+  accessModes:
+    - ReadWriteOnce
+  {{- else if (eq "nfs" .Values.storage_class) }}
+  storageClassName: "{{ .Values.storage_class }}"
+  accessModes:
+  - ReadWriteMany
+  {{- else }}
+  storageClassName: "{{ .Values.storage_class }}"
+  accessModes:
+  - ReadWriteOnce
+  {{- end }}
+  {{- else }}
+  {{- /* Use default storage class when storage_class not defined */}}
+  accessModes:
+  - ReadWriteOnce
+  {{- end }}
+  resources:
+    requests:
+      storage: 20Gi
