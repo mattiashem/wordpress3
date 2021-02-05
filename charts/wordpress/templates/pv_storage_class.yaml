@@ -1,4 +1,5 @@
 # ssd-storageclass.yaml
+{{- if not (lookup "storage.k8s.io/v1" "StorageClass" "" "ssd") }}
 {{- if ( eq "ssd" .Values.storage_class ) }}
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -7,4 +8,5 @@ metadata:
 provisioner: kubernetes.io/gce-pd
 parameters:
   type: pd-ssd
+{{- end}}
 {{- end}}
