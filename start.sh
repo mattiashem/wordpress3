@@ -56,7 +56,12 @@ echo -e "\n" >> /var/www/wordpress/wp-config.php
 #
 #
 ## Setting upp new salt and authkey
-curl https://api.wordpress.org/secret-key/1.1/salt/ >> /var/www/wordpress/wp-config.php
+if [[ ! -z "$SALT" ]] ; then
+  echo "Setting pre-defined salt!"
+  echo "$SALT" >> /var/www/wordpress/wp-config.php
+else
+  curl https://api.wordpress.org/secret-key/1.1/salt/ >> /var/www/wordpress/wp-config.php
+fi
 #
 if [ "$DEBUG" == "true" ] ; then
   echo -e "#### DEBUG ON" >> /var/www/wordpress/wp-config.php
@@ -87,14 +92,15 @@ echo "Starting webb service"
 php-fpm7
 nginx
 
-chown -R nginx:nginx /repo/wp-content
-chmod -R 775 /repo/wp-content
+#chown -R nginx:nginx /repo/wp-content
+#chmod -R 775 /repo/wp-content
 
 #Wordpress
 chmod 664 /var/www/wordpress/wp-config.php
-chmod -R 775 /var/www/wordpress
-chown nginx:nginx -R wordpress
+#chmod -R 775 /var/www/wordpress
+#chown nginx:nginx -R wordpress
 
 
 
 tail -f /var/log/nginx/*
+
