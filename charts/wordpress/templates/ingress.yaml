@@ -14,6 +14,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: 250m
     nginx.org/client-max-body-size: 250M
     nginx.org/proxy-body-size: 250M
+    kubernetes.io/ingress.global-static-ip-name: gke
 
 spec:
   tls:
