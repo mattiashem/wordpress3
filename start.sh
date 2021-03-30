@@ -96,14 +96,17 @@ echo "Starting webb service"
 php-fpm7
 nginx
 
-#chown -R nginx:nginx /repo/wp-content
-#chmod -R 775 /repo/wp-content
+# Set permission on the mounted folder if needed
+# Do it only when necessary because it delays startup. If many files present it takes very long time
+if [[ $(stat -L -c "%U" /repo/wp-content) == "root" ]]; then
+  chown -R nginx:nginx /repo/wp-content
+  chmod -R 775 /repo/wp-content
+fi
 
 #Wordpress
 chmod 664 /var/www/wordpress/wp-config.php
 #chmod -R 775 /var/www/wordpress
 #chown nginx:nginx -R wordpress
-
 
 
 tail -f /var/log/nginx/*
