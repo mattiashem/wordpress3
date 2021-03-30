@@ -98,9 +98,17 @@ nginx
 
 # Set permission on the mounted folder if needed
 # Do it only when necessary because it delays startup. If many files present it takes very long time
-if [[ $(stat -L -c "%U" /repo/wp-content) == "root" ]]; then
+if [[ $(stat -L -c "%U" /repo/wp-content/plugins) == "root" ]]; then
+  echo "plugins folder owned by root start chown and chmod"
   chown -R nginx:nginx /repo/wp-content
+  echo "finished chown"
   chmod -R 775 /repo/wp-content
+  echo "finished chmod"
+else
+  echo "ownership and permission looks good"
+  ls -l /var/www/wordpress
+  ls -l /repo/wp-content/
+  ls -l /repo/wp-content/plugins
 fi
 
 #Wordpress
