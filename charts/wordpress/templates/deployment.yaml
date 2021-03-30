@@ -67,14 +67,18 @@ spec:
               value: {{ .Values.SMTP_FROM }}
             - name: DEBUG
               value: '{{ .Values.DEBUG }}'
+            - name: SALT
+              value: "{{ .Values.salt }}"
+            - name: PHP_WORKERS
+              value: '{{ default 12 .Values.php_workers }}'
           ports:
             - containerPort: 8000
               name: wordpress
           resources:
             requests:
-              memory: 1664Mi
+              memory: '{{ default "1664Mi" .Values.requests.memory }}'
             limits: 
-              memory: 2048Mi
+              memory: '{{ default "2048Mi" .Values.limits.memory }}'
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /repo
