@@ -55,6 +55,10 @@ echo -e "\n" >> /var/www/wordpress/wp-config.php
 #
 #
 #
+# Set static php workers (defaults to 6 if not set)
+PHP_WORKERS="${PHP_WORKERS:-6}"
+sed -i "s/^pm.max_children =.*/pm.max_children = ${PHP_WORKERS}/g" /etc/php7/php-fpm.d/www.conf
+
 ## Setting upp new salt and authkey
 if [[ ! -z "$SALT" ]] ; then
   echo "Setting pre-defined salt!"
