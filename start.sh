@@ -57,7 +57,8 @@ echo -e "\n" >> /var/www/wordpress/wp-config.php
 #
 # Set static php workers (defaults to 6 if not set)
 PHP_WORKERS="${PHP_WORKERS:-6}"
-sed -i "s/^pm.max_children =.*/pm.max_children = ${PHP_WORKERS}/g" /etc/php7/php-fpm.d/www.conf
+#sed -i "s/^pm.max_children =.*/pm.max_children = ${PHP_WORKERS}/g" /etc/php7/php-fpm.d/www.conf
+sed -i "s/^pm.max_children =.*/pm.max_children = ${PHP_WORKERS}/g" /usr/local/etc/php-fpm.d/www.conf
 
 ## Setting upp new salt and authkey
 if [[ ! -z "$SALT" ]] ; then
@@ -66,12 +67,12 @@ if [[ ! -z "$SALT" ]] ; then
 else
   curl https://api.wordpress.org/secret-key/1.1/salt/ >> /var/www/wordpress/wp-config.php
 fi
-#
+
 if [ "$DEBUG" == "true" ] ; then
   echo -e "#### DEBUG ON" >> /var/www/wordpress/wp-config.php
   echo -e "define('WP_DEBUG', true); \n" >> /var/www/wordpress/wp-config.php
   echo -e "define('WP_DEBUG_LOG', true); \n" >> /var/www/wordpress/wp-config.php
-  echo -e "define('WP_DEBUG_DISPLAY', false); \n" >> /var/www/wordpress/wp-config.php
+  echo -e "define('WP_DEBUG_DISPLAY', true); \n" >> /var/www/wordpress/wp-config.php
   echo -e "define('WPS_DEBUG', true); \n" >> /var/www/wordpress/wp-config.php
 fi
 echo -e "####" >> /var/www/wordpress/wp-config.php
@@ -93,8 +94,8 @@ else
 fi
 
 echo "Starting webb service"
-php-fpm7
 nginx
+php-fpm
 
 # Set permission on the mounted folder if needed
 # Do it only when necessary because it delays startup. If many files present it takes very long time
