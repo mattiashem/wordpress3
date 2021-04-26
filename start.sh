@@ -93,9 +93,6 @@ else
     cp -r /var/www/wordpress/wp-content_org /repo/wp-content
 fi
 
-echo "Starting webb service"
-nginx
-php-fpm
 
 # Set permission on the mounted folder if needed
 # Do it only when necessary because it delays startup. If many files present it takes very long time
@@ -117,6 +114,12 @@ chmod 664 /var/www/wordpress/wp-config.php
 #chmod -R 775 /var/www/wordpress
 #chown nginx:nginx -R wordpress
 
+#touch /var/log/nginx/php-error.log && chmod 644 /var/log/nginx/php-error.log && ln -sf /proc/1/fd/1 /var/log/nginx/php-error.log
+touch /var/log/nginx/www-error.log && chmod 644 /var/log/nginx/www-error.log && ln -sf /proc/1/fd/1 /var/log/nginx/www-error.log
+#tail -f /var/log/nginx/www-error.log /var/log/nginx/php-error.log
 
-tail -f /var/log/nginx/*
-
+echo "Starting webb service"
+nginx
+php-fpm
+# php-fpm runs in the foreground because of  /usr/local/etc/php-fpm.d/docker.conf (inherited from php-fpm docker image)
+# DONT ADD ANYTHING AFTER "php-fpm"

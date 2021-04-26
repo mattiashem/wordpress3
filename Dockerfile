@@ -77,6 +77,10 @@ ADD start.sh /
 RUN chown nginx /start.sh
 RUN chmod 711 /start.sh
 
+# link these log files to STDOUT 
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log 
+
 #USER nginx
 
 CMD /start.sh
