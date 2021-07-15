@@ -72,6 +72,7 @@ RUN mkdir /run/php
 RUN chown nginx:nginx /run/php
 RUN chmod 771 /run/php
 
+RUN chown nginx:nginx -R /var/www/wordpress
 
 ADD start.sh /
 RUN chown nginx /start.sh
