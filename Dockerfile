@@ -1,6 +1,6 @@
 FROM php:7.4-fpm-alpine
 
-ARG WP_VERSION=5.7.2
+ARG WP_VERSION=5.9.3
 
 RUN apk add --no-cache libpng libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev && docker-php-ext-install gd
 RUN set -ex \
