@@ -71,7 +71,7 @@ fi
 if [ "$DEBUG" == "true" ] ; then
   echo -e "#### DEBUG ON" >> /var/www/wordpress/wp-config.php
   echo -e "define('WP_DEBUG', true); \n" >> /var/www/wordpress/wp-config.php
-  echo -e "define('WP_DEBUG_LOG', '/tmp/wp-debug.log'); \n" >> /var/www/wordpress/wp-config.php
+  echo -e "define('WP_DEBUG_LOG', '/var/log/nginx/www-error.log'); \n" >> /var/www/wordpress/wp-config.php
   echo -e "define('WP_DEBUG_DISPLAY', false); \n" >> /var/www/wordpress/wp-config.php
   echo -e "define('WPS_DEBUG', true); \n" >> /var/www/wordpress/wp-config.php
 fi
